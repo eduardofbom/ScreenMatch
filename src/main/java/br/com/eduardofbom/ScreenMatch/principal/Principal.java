@@ -45,6 +45,18 @@ public class Principal {
 
         seasonsList.forEach(s -> s.episodesList().forEach(e -> System.out.println(e.title())));
 
+//		List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
+//
+//		List<Integer> temp = numbers.stream()
+//				.filter(n -> n % 2 == 0)
+//				.limit(5)
+//				.map(n -> n*n)
+//				.collect(CollectorstoList());
+//		System.out.println(temp);
+//		System.out.println(temp
+//				.stream()
+//				.reduce(0, Integer::sum));
+
     }
 
 }
