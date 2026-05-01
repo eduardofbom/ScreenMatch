@@ -2,14 +2,17 @@ package br.com.eduardofbom.ScreenMatch.principal;
 
 
 import br.com.eduardofbom.ScreenMatch.infrastructure.model.ConvertData;
+import br.com.eduardofbom.ScreenMatch.infrastructure.model.DataEpisode;
 import br.com.eduardofbom.ScreenMatch.infrastructure.model.DataSeason;
 import br.com.eduardofbom.ScreenMatch.infrastructure.model.DataSeries;
 import br.com.eduardofbom.ScreenMatch.service.ApiConsumptionService;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -45,17 +48,16 @@ public class Principal {
 
         seasonsList.forEach(s -> s.episodesList().forEach(e -> System.out.println(e.title())));
 
-//		List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
-//
-//		List<Integer> temp = numbers.stream()
-//				.filter(n -> n % 2 == 0)
-//				.limit(5)
-//				.map(n -> n*n)
-//				.collect(CollectorstoList());
-//		System.out.println(temp);
-//		System.out.println(temp
-//				.stream()
-//				.reduce(0, Integer::sum));
+        List<DataEpisode> episodesList = seasonsList.stream()
+                .flatMap(s -> s.episodesList().stream())
+                .collect(Collectors.toList());
+
+        System.out.println("\nTOP 5: Episodes");
+        episodesList.stream()
+                .filter(e -> !e.rating().equalsIgnoreCase("N/A"))
+                .sorted(Comparator.comparing(DataEpisode::rating).reversed())
+                .limit(5)
+                .forEach(System.out::println);
 
     }
 
