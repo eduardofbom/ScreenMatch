@@ -1,13 +1,12 @@
 package br.com.eduardofbom.ScreenMatch.principal;
 
 
-import br.com.eduardofbom.ScreenMatch.infrastructure.model.ConvertData;
-import br.com.eduardofbom.ScreenMatch.infrastructure.model.DataEpisode;
-import br.com.eduardofbom.ScreenMatch.infrastructure.model.DataSeason;
-import br.com.eduardofbom.ScreenMatch.infrastructure.model.DataSeries;
+import br.com.eduardofbom.ScreenMatch.infrastructure.model.*;
 import br.com.eduardofbom.ScreenMatch.service.ApiConsumptionService;
 
 import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -58,6 +57,29 @@ public class Principal {
                 .sorted(Comparator.comparing(DataEpisode::rating).reversed())
                 .limit(5)
                 .forEach(System.out::println);
+        System.out.println();
+
+        List<Episode> episodes = seasonsList.stream()
+                .flatMap(s -> s.episodesList().stream()
+                        .map(e -> new Episode(s.season(), e))
+                ).collect(Collectors.toList());
+
+        episodes.stream()
+                .sorted((s1,s2) -> s1.getRating().compareTo(s2.getRating()))
+        .forEach(System.out::println);
+
+        System.out.println("Which year of episodes would you like to watch?");
+        Integer yearSearch = scanner.nextInt();
+        scanner.nextLine();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        episodes.stream()
+                .filter(e -> e.getReleased() != null && e.getReleased().isAfter(LocalDate.of(yearSearch, 1, 1)))
+                .forEach(e -> System.out.printf("S%dE%d - %s - %s%n",
+                        e.getSeason(),
+                        e.getEpisode(),
+                        e.getTitle(),
+                        e.getReleased().format(formatter)));
 
     }
 
