@@ -8,8 +8,8 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record DataSeries (@JsonAlias("Title") String title,
-                          @JsonAlias("imdbRating") double rating,
-                          @JsonAlias("totalSeasons") Integer quantSeasons,
+                          @JsonAlias("imdbRating") String rating,
+                          @JsonAlias("totalSeasons") String quantSeasons,
                           @JsonAlias("Genre") String genre,
                           @JsonAlias("Actors") String actors,
                           @JsonAlias("Plot") String synopsis,

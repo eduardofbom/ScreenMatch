@@ -71,7 +71,7 @@ public class Principal {
         DataSeries dataSeries = getDataSeries();
         List<DataSeason> seasons = new ArrayList<>();
 
-        for (int i = 1; i < dataSeries.quantSeasons(); i++) {
+        for (int i = 1; i < Integer.parseInt(dataSeries.quantSeasons()); i++) {
             String json = apiConsumptionService.consumeApi(ADDRESS + URLEncoder.encode(dataSeries.title()) + "&season=" + 1 + API_KEY);
             DataSeason dataSeason = converter.getData(json, DataSeason.class);
             seasons.add(dataSeason);
