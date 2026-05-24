@@ -1,21 +1,19 @@
 package br.com.eduardofbom.ScreenMatch.infrastructure.model;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
 import java.time.LocalDate;
 
 public class Episode {
 
     private Integer season;
     private String title;
-    private LocalDate released;
+    private LocalDate dateReleased;
     private Integer episode;
     private Double rating;
 
-    public Episode(Integer season, String title, LocalDate released, Integer episode, Double rating) {
+    public Episode(Integer season, String title, LocalDate dateReleased, Integer episode, Double rating) {
         this.season = season;
         this.title = title;
-        this.released = released;
+        this.dateReleased = dateReleased;
         this.episode = episode;
         this.rating = rating;
     }
@@ -23,12 +21,15 @@ public class Episode {
     public Episode(Integer season, DataEpisode e) {
         this.season = season;
         this.title = e.title();
+
         try {
-            this.released = LocalDate.parse(e.released());
+            this.dateReleased = LocalDate.parse(e.released());
         } catch (RuntimeException ex) {
-            this.released = null;
+            this.dateReleased = null;
         }
+
         this.episode = e.episode();
+
         try {
             this.rating = Double.valueOf(e.rating());
         } catch (NumberFormatException ex) {
@@ -52,12 +53,12 @@ public class Episode {
         this.title = title;
     }
 
-    public LocalDate getReleased() {
-        return released;
+    public LocalDate getDateReleased() {
+        return dateReleased;
     }
 
-    public void setReleased(LocalDate released) {
-        this.released = released;
+    public void setDateReleased(LocalDate dateReleased) {
+        this.dateReleased = dateReleased;
     }
 
     public Integer getEpisode() {
@@ -81,7 +82,7 @@ public class Episode {
         return "Episode{" +
                 "season=" + season +
                 ", title='" + title + '\'' +
-                ", released=" + released +
+                ", released=" + dateReleased +
                 ", episode=" + episode +
                 ", rating=" + rating +
                 '}';

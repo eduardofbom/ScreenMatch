@@ -1,9 +1,9 @@
-package br.com.eduardofbom.ScreenMatch.infrastructure.model;
+package br.com.eduardofbom.ScreenMatch.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ConvertData implements IConvertData{
+public class ConvertData implements IConvertData {
 
     private ObjectMapper mapper = new ObjectMapper();
 
