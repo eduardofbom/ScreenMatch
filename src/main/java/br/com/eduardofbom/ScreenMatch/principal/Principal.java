@@ -7,6 +7,7 @@ import br.com.eduardofbom.ScreenMatch.service.ConvertData;
 
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -46,8 +47,10 @@ public class Principal {
                     break;
                 case 0:
                     System.out.println("Going out...");
+                    break;
                 default:
                     System.out.println("Invalid option");
+                    break;
             }
         }
 
@@ -80,7 +83,13 @@ public class Principal {
     }
 
     private void showSearchedSeries() {
-        searchedSeries.forEach(System.out::println);
+        List<Series> seriesList;
+        seriesList = this.searchedSeries.stream()
+                .map(Series::new)
+                .collect(Collectors.toList());
+        seriesList.stream()
+                .sorted(Comparator.comparing(Series::getGenre))
+                .forEach(System.out::println);
     }
 
 }
