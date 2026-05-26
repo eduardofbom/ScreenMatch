@@ -2,8 +2,9 @@ package br.com.eduardofbom.ScreenMatch.principal;
 
 
 import br.com.eduardofbom.ScreenMatch.infrastructure.model.*;
-import br.com.eduardofbom.ScreenMatch.service.ApiConsumptionService;
+import br.com.eduardofbom.ScreenMatch.service.OmdbApiConsumption;
 import br.com.eduardofbom.ScreenMatch.service.ConvertData;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.net.URLEncoder;
 import java.util.*;
@@ -12,11 +13,12 @@ import java.util.stream.Collectors;
 public class Principal {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final ApiConsumptionService apiConsumptionService = new ApiConsumptionService();
+    private final OmdbApiConsumption omdbApiConsumption = new OmdbApiConsumption();
     private final ConvertData converter = new ConvertData();
+    private final Dotenv dotenv = Dotenv.load();
 
     private final String ADDRESS = "https://www.omdbapi.com/?t=";
-    private final String API_KEY = "&apikey=d4a220b9";
+    private final String API_KEY = "&apikey=" + dotenv.get("OMDB_API_KEY");
     private List<DataSeries> searchedSeries = new ArrayList<>();
 
     public void showMenu() {
@@ -65,7 +67,7 @@ public class Principal {
     private DataSeries getDataSeries() {
         System.out.println("Enter the name of series to search");
         String nameSeries = scanner.nextLine();
-        String json = apiConsumptionService.consumeApi(ADDRESS + URLEncoder.encode(nameSeries) + API_KEY);
+        String json = omdbApiConsumption.consume(ADDRESS + URLEncoder.encode(nameSeries) + API_KEY);
         DataSeries data = converter.getData(json, DataSeries.class);
         return data;
     }
@@ -75,7 +77,7 @@ public class Principal {
         List<DataSeason> seasons = new ArrayList<>();
 
         for (int i = 1; i < Integer.parseInt(dataSeries.quantSeasons()); i++) {
-            String json = apiConsumptionService.consumeApi(ADDRESS + URLEncoder.encode(dataSeries.title()) + "&season=" + 1 + API_KEY);
+            String json = omdbApiConsumption.consume(ADDRESS + URLEncoder.encode(dataSeries.title()) + "&season=" + 1 + API_KEY);
             DataSeason dataSeason = converter.getData(json, DataSeason.class);
             seasons.add(dataSeason);
         }

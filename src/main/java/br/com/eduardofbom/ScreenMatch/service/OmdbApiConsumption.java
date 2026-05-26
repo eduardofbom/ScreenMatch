@@ -7,9 +7,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class ApiConsumptionService {
+public class OmdbApiConsumption {
 
-    public String consumeApi(String address) {
+    public String consume(String address) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(address))
