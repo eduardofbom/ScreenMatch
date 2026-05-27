@@ -2,6 +2,7 @@ package br.com.eduardofbom.ScreenMatch.infrastructure.model;
 
 import java.time.LocalDate;
 import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 public class Episode {
 
@@ -29,7 +30,11 @@ public class Episode {
             this.dateReleased = null;
         }
 
-        this.episode = Integer.parseInt(e.episode());
+        try {
+            this.episode = OptionalInt.of(Integer.valueOf(e.episode())).orElse(0);
+        } catch (NumberFormatException ex) {
+            this.episode = 0;
+        }
 
         this.rating = OptionalDouble.of(Double.valueOf(e.rating())).orElse(0.0);
     }

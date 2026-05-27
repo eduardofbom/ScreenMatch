@@ -60,8 +60,12 @@ public class Principal {
 
     private void searchSeriesWeb() {
         DataSeries data = getDataSeries();
-        searchedSeries.add(data);
-        System.out.println(data);
+        if (data.title() != null) {
+            searchedSeries.add(data);
+            System.out.println(data);
+        } else {
+            System.out.println("The series was not found.");
+        }
     }
 
     private DataSeries getDataSeries() {

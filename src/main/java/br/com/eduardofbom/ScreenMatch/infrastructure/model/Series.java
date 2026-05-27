@@ -1,7 +1,10 @@
 package br.com.eduardofbom.ScreenMatch.infrastructure.model;
 
+import br.com.eduardofbom.ScreenMatch.service.GeminiApiConsumption;
+
 import java.util.List;
 import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 public class Series {
 
@@ -16,10 +19,14 @@ public class Series {
     public Series(DataSeries dataSeries) {
         this.title = dataSeries.title();
         this.rating = OptionalDouble.of(Double.valueOf(dataSeries.rating())).orElse(0.0);
-        this.quantSeasons = Integer.parseInt(dataSeries.quantSeasons());
+        try {
+            this.quantSeasons = Integer.valueOf(dataSeries.quantSeasons());
+        } catch (NumberFormatException ex) {
+            this.quantSeasons = 0;
+        }
         this.genre = GenreCategory.fromString((dataSeries.genre().split(",")[0].trim()));
         this.actors = List.of(dataSeries.actors().split(","));
-        this.synopsis = dataSeries.synopsis();
+        this.synopsis = GeminiApiConsumption.getTranslate(dataSeries.synopsis());
         this.posterUrl = dataSeries.posterUrl();
     }
 
